@@ -24,7 +24,7 @@ public class ToDo {
 
 
     public void print() {
-        System.out.println("To-do List:");
+        System.out.println("To-do List: ");
         System.out.println("-----------");
         getList();
         if (TodoList == null) {
