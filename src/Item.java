@@ -40,24 +40,7 @@ public class Item {
     public int getPriority() {
         return priority;
     }
-
-    //used in order to overload indexOf() method
-    //*****************************************************
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof Item) {
-            //item comparison
-            Item mo = (Item)o;
-            return mo.item.equals(item);
-        }
-        return false;
-    }
-
-    public int hashCode() {
-        return java.util.Objects.hashCode(item);
-    }
-
-    // *****************************************************
+    
 
     public String translatePriority()
     {
@@ -78,9 +61,8 @@ public class Item {
 
     @Override
     public String toString() {
-        return new StringBuilder("").append(category).append(", ")
-                .append(translatePriority()).append(", ").append(item)
-                .toString();
+        return "" + category + ", " +
+                translatePriority() + ", " + item;
     }
 
 

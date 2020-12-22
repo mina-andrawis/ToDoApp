@@ -34,14 +34,14 @@ public class ToDo {
         }
     }
 
+    // Return the index of the searched item, accounts for differences in white spaces and cases
     public int getIndex(String item)
     {
+        //return -1 if not found
         int index = -1;
         String itemString = item.replaceAll("\\s+", "").toLowerCase();
         for (int i = 0; i < TodoList.size(); i++) {
             String listItem = TodoList.get(i).getItem().replaceAll("\\s+", "").toLowerCase();
-            // I think it's better to use the String#contains() method
-            // instead of the String#indexOf() method.
             if (listItem.contains(itemString)) {
                 index = i;
                 break;
