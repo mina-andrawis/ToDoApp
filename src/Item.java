@@ -1,7 +1,7 @@
-public class Item {
+import java.util.Comparator;
 
+public class Item{
 
-    public int i;
     private String item;
     private String category;
     private int priority;
@@ -40,7 +40,7 @@ public class Item {
     public int getPriority() {
         return priority;
     }
-    
+
 
     public String translatePriority()
     {
@@ -65,7 +65,18 @@ public class Item {
                 translatePriority() + ", " + item;
     }
 
+    // override Compare method of Comparator in order to reorder based on priority
+    public static Comparator<Item> priorityComparator = new Comparator<Item>() {
 
+        public int compare(Item i1, Item i2) {
+
+            int priority1 = i1.getPriority();
+            int priority2 = i2.getPriority();
+
+            /*For ascending order*/
+            return priority2-priority1;
+
+        }};
 
 
 

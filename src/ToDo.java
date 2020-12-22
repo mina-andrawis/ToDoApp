@@ -7,22 +7,19 @@ import java.lang.*;
 public class ToDo {
 
     ArrayList<Item> TodoList = new ArrayList<>();
-
-
     static int size=0;
 
     public void addItem(String item, String category, int priority)
     {
         TodoList.add(new Item(item,category,priority));
-
         size++;
     }
 
     //remove item at specified index spot
     private void removeItem(String item )
     {
-
         TodoList.remove(getIndex(item));
+        size--;
 
     }
 
@@ -37,7 +34,7 @@ public class ToDo {
     // Return the index of the searched item, accounts for differences in white spaces and cases
     public int getIndex(String item)
     {
-        //return -1 if not found
+        //return -1 if not found  ,  \\s+ => more than one white space
         int index = -1;
         String itemString = item.replaceAll("\\s+", "").toLowerCase();
         for (int i = 0; i < TodoList.size(); i++) {
@@ -50,6 +47,10 @@ public class ToDo {
         return index;
     }
 
+    public void sortItems()
+    {
+        TodoList.sort(Item.priorityComparator);
+    }
 
 
 
@@ -76,16 +77,18 @@ public class ToDo {
         todo.addItem("Get potatoes", "Shopping", 3);
         todo.print();
 
-        System.out.println("------------");
-        //todo.removeItem("Read book","School","3");
-        todo.removeItem("Buy planner");
+        System.out.println("-----------------\n");
 
-        //System.out.println("INDEX OF READ BOOK (1) :" + todo.getIndex("Send letter"));
+        todo.removeItem("Get pickles");
+
+        todo.sortItems();
+
 
         //todo.removeItem(todo.getIndex("ReadBook"));
         todo.print();
 
-        //System.out.println("SIZE: " + size);
+
+
 
     }
 
