@@ -1,10 +1,12 @@
 public class Item {
 
 
-
+    public int i;
     private String item;
     private String category;
     private int priority;
+
+
 
     //default constructor to initialize
     public Item(String item, String category, int priority){
@@ -12,6 +14,8 @@ public class Item {
         this.category = category;
         this.priority = priority;
     }
+
+
 
     public String getItem() {
         return item;
@@ -33,7 +37,29 @@ public class Item {
         this.priority = priority;
     }
 
-    public String getPriority()
+    public int getPriority() {
+        return priority;
+    }
+
+    //used in order to overload indexOf() method
+    //*****************************************************
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Item) {
+            //item comparison
+            Item mo = (Item)o;
+            return mo.item.equals(item);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        return java.util.Objects.hashCode(item);
+    }
+
+    // *****************************************************
+
+    public String translatePriority()
     {
         if (priority == 1)
             return "low";
@@ -48,8 +74,13 @@ public class Item {
 
     }
 
+
+
+    @Override
     public String toString() {
-        return  "Category : " + category + " || Priority Level: " + getPriority() + "\nTask : " + item + "\n";
+        return new StringBuilder("").append(category).append(", ")
+                .append(translatePriority()).append(", ").append(item)
+                .toString();
     }
 
 
