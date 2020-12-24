@@ -58,11 +58,10 @@ public class Item{
     }
 
 
-
     @Override
     public String toString() {
-        return "" + category + ", " +
-                translatePriority() + ", " + item;
+        return "PRIORITY: " +
+                translatePriority() + " || " + category + ", " + item + " ";
     }
 
     // override Compare method of Comparator in order to reorder based on priority
