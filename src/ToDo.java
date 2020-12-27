@@ -165,8 +165,8 @@ public class ToDo{
 
                // add items to content panel
                for (int i = 0; i < size; i++) {
-                   checkBox[0][i] = new JCheckBox(data[i]);
-                   centerPanel.add(checkBox[0][i]);
+                   checkbox[i] = new JCheckBox(data[i]);
+                   centerPanel.add(checkbox[i]);
                }
 
                contentPane.add(centerPanel, BorderLayout.CENTER);
