@@ -5,6 +5,7 @@ import java.lang.*;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.Border;
 
 
 public class ToDo{
@@ -77,6 +78,7 @@ public class ToDo{
         ToDo todo = new ToDo();
 
 
+        /*
         todo.addItem("Get pickles", "Shopping", 2);
         todo.addItem("Read book", "School", 3);
         todo.addItem("Send letter", "Other", 1);
@@ -84,6 +86,8 @@ public class ToDo{
         todo.addItem("Get potatoes", "Shopping", 3);
         todo.addItem("Get things", "Shopping", 3);
 
+
+         */
         //initialize data array to hold items
         String[] data = new String[100];
 
@@ -107,11 +111,12 @@ public class ToDo{
         JPanel footerPanel = new JPanel();
 
         JLabel title = new JLabel("TO-DO");
-        headerPanel.add(title);
+        headerPanel.add(title, BorderLayout.PAGE_START);
 
 
         contentPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(5, 5));
+
 
         //array to hold checkboxes
         JCheckBox[] checkbox = new JCheckBox[size];
@@ -155,27 +160,26 @@ public class ToDo{
                todo.print();
 
                //System.out.println("SIZE: " + size);
+
+               //defcalre new checkbox with updated size
+               JCheckBox[] checkbox = new JCheckBox[size];
+
+               //sort items, populate data array, copy data array to checkbox array, add to panel
                for (int i = 0; i < size; i++) {
-                   //sort items and populate data array with items converted to string
                    todo.sortItems();
                    data[i] = todo.getItemString(i);
+
+                   checkbox[i] = new JCheckBox(data[i]);
+                   centerPanel.add(checkbox[i]);
                }
 
 
-               contentPane.removeAll();
-
                contentPane.add(centerPanel, BorderLayout.CENTER);
 
-               //frame.add(contentPane);
 
-               footerPanel.add(resetButton);
-               footerPanel.add(addButton);
-               
-               contentPane.add(footerPanel, BorderLayout.SOUTH);
 
-               frame.revalidate();
-               frame.repaint();
-
+               contentPane.revalidate();
+               contentPane.repaint();
 
 
 
@@ -188,17 +192,6 @@ public class ToDo{
         frame.setResizable(false);
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
-
-
-
-
-        todo.print();
-
-        System.out.println("-----------------\n");
-
-        todo.removeItem("Get pickles");
-
-        todo.sortItems();
 
 
         todo.print();
