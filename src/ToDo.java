@@ -76,6 +76,7 @@ public class ToDo{
 
         ToDo todo = new ToDo();
 
+
         todo.addItem("Get pickles", "Shopping", 2);
         todo.addItem("Read book", "School", 3);
         todo.addItem("Send letter", "Other", 1);
@@ -112,13 +113,15 @@ public class ToDo{
         contentPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(5, 5));
 
-        checkBox[0] = new JCheckBox[size];
+        //array to hold checkboxes
+        JCheckBox[] checkbox = new JCheckBox[size];
+
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new GridLayout(0, 1, 5, 5));
 
         for (int i = 0; i < size; i++) {
-            checkBox[0][i] = new JCheckBox(data[i]);
-            centerPanel.add(checkBox[0][i]);
+            checkbox[i] = new JCheckBox(data[i]);
+            centerPanel.add(checkbox[i]);
         }
 
         contentPane.add(headerPanel, BorderLayout.NORTH);
@@ -147,21 +150,34 @@ public class ToDo{
                    priority = Integer.parseInt(newP);      //convert to an int
                }
 
-
                todo.addItem(item,category,priority);
 
                todo.print();
 
-               for (int i = 0; i < size; i++) {
 
+               for (int i = 0; i < size; i++) {
                    //sort items and populate data array with items converted to string
                    todo.sortItems();
                    data[i] = todo.getItemString(i);
                }
 
+               contentPane.removeAll();
 
-               contentPane.revalidate();
+               // add items to content panel
+               for (int i = 0; i < size; i++) {
+                   checkBox[0][i] = new JCheckBox(data[i]);
+                   centerPanel.add(checkBox[0][i]);
+               }
+
+               contentPane.add(centerPanel, BorderLayout.CENTER);
+
+               //frame.add(contentPane);
+
+               frame.revalidate();
                contentPane.repaint();
+
+
+
 
            }
        });
