@@ -94,7 +94,7 @@ public class ToDo{
         }
 
         ///declare components of panels
-        final JCheckBox[][] checkBox = new JCheckBox[1][1];
+        final JCheckBox[] checkBox = new JCheckBox[1];
         JButton resetButton = new JButton("Reset List");
 
         JButton addButton = new JButton("Add Task");
@@ -136,7 +136,7 @@ public class ToDo{
 
         addButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
-               //footerPanel.removeAll();
+
 
                String category = JOptionPane.showInputDialog(footerPanel,"Category? (e.g., shopping, school, other, etc.)");
                String item = JOptionPane.showInputDialog(footerPanel,"Task?");
@@ -154,27 +154,27 @@ public class ToDo{
 
                todo.print();
 
-
+               //System.out.println("SIZE: " + size);
                for (int i = 0; i < size; i++) {
                    //sort items and populate data array with items converted to string
                    todo.sortItems();
                    data[i] = todo.getItemString(i);
                }
 
-               contentPane.removeAll();
 
-               // add items to content panel
-               for (int i = 0; i < size; i++) {
-                   checkbox[i] = new JCheckBox(data[i]);
-                   centerPanel.add(checkbox[i]);
-               }
+               contentPane.removeAll();
 
                contentPane.add(centerPanel, BorderLayout.CENTER);
 
                //frame.add(contentPane);
 
+               footerPanel.add(resetButton);
+               footerPanel.add(addButton);
+               
+               contentPane.add(footerPanel, BorderLayout.SOUTH);
+
                frame.revalidate();
-               contentPane.repaint();
+               frame.repaint();
 
 
 
