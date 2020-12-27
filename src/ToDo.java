@@ -7,7 +7,7 @@ import java.awt.*;
 import javax.swing.*;
 
 
-public class ToDo {
+public class ToDo{
 
     ArrayList<Item> TodoList = new ArrayList<>();
     static int size=0;
@@ -81,27 +81,29 @@ public class ToDo {
         todo.addItem("Send letter", "Other", 1);
         todo.addItem("Buy planner", "School", 4);
         todo.addItem("Get potatoes", "Shopping", 3);
+        todo.addItem("Get things", "Shopping", 3);
 
         //initialize data array to hold items
         String[] data = new String[100];
 
-        for (int i = 0; i < size ; i++)
-        {
+        for (int i = 0; i < size; i++) {
             //sort items and populate data array with items converted to string
             todo.sortItems();
             data[i] = todo.getItemString(i);
         }
 
         ///declare components of panels
-        JCheckBox[] checkBox;
-        JButton resetButton = new JButton("Reset List");;
-        JButton addButton  = new JButton("Add Task");
+        final JCheckBox[][] checkBox = new JCheckBox[1][1];
+        JButton resetButton = new JButton("Reset List");
+
+        JButton addButton = new JButton("Add Task");
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel headerPanel = new JPanel();
         JPanel contentPane = new JPanel();
+        JPanel footerPanel = new JPanel();
 
         JLabel title = new JLabel("TO-DO");
         headerPanel.add(title);
@@ -110,44 +112,66 @@ public class ToDo {
         contentPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(5, 5));
 
-        checkBox = new JCheckBox[size];
+        checkBox[0] = new JCheckBox[size];
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new GridLayout(0, 1, 5, 5));
 
         for (int i = 0; i < size; i++) {
-            checkBox[i] = new JCheckBox(data[i]);
-            centerPanel.add(checkBox[i]);
+            checkBox[0][i] = new JCheckBox(data[i]);
+            centerPanel.add(checkBox[0][i]);
         }
 
-        contentPane.add(headerPanel,BorderLayout.NORTH);
+        contentPane.add(headerPanel, BorderLayout.NORTH);
         contentPane.add(centerPanel, BorderLayout.CENTER);
 
-        JPanel footerPanel = new JPanel();
 
         footerPanel.add(resetButton);
         footerPanel.add(addButton);
+
         contentPane.add(footerPanel, BorderLayout.SOUTH);
 
 
+        addButton.addActionListener(new ActionListener() {
+           public void actionPerformed(ActionEvent e) {
+               //footerPanel.removeAll();
+
+               String category = JOptionPane.showInputDialog(footerPanel,"Category? (e.g., shopping, school, other, etc.)");
+               String item = JOptionPane.showInputDialog(footerPanel,"Task?");
+               String p = JOptionPane.showInputDialog(footerPanel,"Priority? (1 -> low priority, 4 -> urgent");
+
+               int priority = Integer.parseInt(p);      //convert to an int
+
+               while (priority < 0 || priority > 4)
+               {
+                   String newP = JOptionPane.showInputDialog(footerPanel,"Please enter a valid number. (1 -> low priority, 4 -> urgent");
+                   priority = Integer.parseInt(newP);      //convert to an int
+               }
+
+
+               todo.addItem(item,category,priority);
+
+               todo.print();
+
+               for (int i = 0; i < size; i++) {
+
+                   //sort items and populate data array with items converted to string
+                   todo.sortItems();
+                   data[i] = todo.getItemString(i);
+               }
+
+
+               contentPane.revalidate();
+               contentPane.repaint();
+
+           }
+       });
+
+
         frame.setContentPane(contentPane);
-        frame.pack();
+        frame.setSize(400,500);
+        frame.setResizable(false);
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
-
-
-
-        // Anaonymous class for add button
-        addButton.addActionListener(new ActionListener () {
-            public void actionPerformed(ActionEvent e){
-
-                //prompt.setText("What is the subject of the task?");
-
-
-            }
-        });
-
-
-
 
 
 
@@ -161,13 +185,11 @@ public class ToDo {
         todo.sortItems();
 
 
-        //todo.removeItem(todo.getIndex("ReadBook"));
         todo.print();
 
 
 
 
     }
-
 }
 
