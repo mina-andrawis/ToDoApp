@@ -164,6 +164,10 @@ public class ToDo{
                //defcalre new checkbox with updated size
                JCheckBox[] checkbox = new JCheckBox[size];
 
+               centerPanel.removeAll();
+               centerPanel.repaint();       // indicates the window is dirty -> allows for removal
+
+
                //sort items, populate data array, copy data array to checkbox array, add to panel
                for (int i = 0; i < size; i++) {
                    todo.sortItems();
@@ -175,11 +179,9 @@ public class ToDo{
 
 
                contentPane.add(centerPanel, BorderLayout.CENTER);
+               contentPane.revalidate();        // indicates new components are available to repaint
 
-
-
-               contentPane.revalidate();
-               contentPane.repaint();
+               
 
 
 
