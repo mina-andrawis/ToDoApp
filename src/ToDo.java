@@ -35,6 +35,7 @@ public class ToDo{
         }
     }
 
+
     // Return the index of the searched item, accounts for differences in white spaces and cases
     public int getIndex(String item)
     {
@@ -51,7 +52,7 @@ public class ToDo{
         return index;
     }
 
-    public String getItemString(int i)
+    public String taskToString(int i)
     {
         return TodoList.get(i).toString();
     }
@@ -86,19 +87,21 @@ public class ToDo{
         todo.addItem("Get potatoes", "Shopping", 3);
         todo.addItem("Get things", "Shopping", 3);
 
-
          */
+
         //initialize data array to hold items
         String[] data = new String[100];
 
         for (int i = 0; i < size; i++) {
             //sort items and populate data array with items converted to string
             todo.sortItems();
-            data[i] = todo.getItemString(i);
+            data[i] = todo.taskToString(i);
         }
 
         ///declare components of panels
-        final JCheckBox[] checkBox = new JCheckBox[1];
+        //JCheckBox[] checkbox = new JCheckBox[size];
+        ArrayList<JCheckBox> checkbox = new ArrayList<>();
+
         JButton resetButton = new JButton("Reset List");
 
         JButton addButton = new JButton("Add Task");
@@ -119,14 +122,14 @@ public class ToDo{
 
 
         //array to hold checkboxes
-        JCheckBox[] checkbox = new JCheckBox[size];
+
 
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new GridLayout(0, 1, 5, 5));
 
         for (int i = 0; i < size; i++) {
-            checkbox[i] = new JCheckBox(data[i]);
-            centerPanel.add(checkbox[i]);
+            checkbox.set(i,new JCheckBox(data[i]));
+            centerPanel.add(checkbox.get(i));
         }
 
         contentPane.add(headerPanel, BorderLayout.NORTH);
@@ -138,16 +141,18 @@ public class ToDo{
 
         contentPane.add(footerPanel, BorderLayout.SOUTH);
 
+        // Action listener of add button
 
         addButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
-
 
                String category = JOptionPane.showInputDialog(footerPanel,"Category? (e.g., shopping, school, other, etc.)");
                String item = JOptionPane.showInputDialog(footerPanel,"Task?");
                String p = JOptionPane.showInputDialog(footerPanel,"Priority? (1 -> low priority, 4 -> urgent");
 
                int priority = Integer.parseInt(p);      //convert to an int
+
+               // ADD ERROR HANDLING
 
                while (priority < 0 || priority > 4)
                {
@@ -157,38 +162,58 @@ public class ToDo{
 
                todo.addItem(item,category,priority);
 
-               todo.print();
+               todo.print();        // to console
 
-               //System.out.println("SIZE: " + size);
-
-               //defcalre new checkbox with updated size
-               JCheckBox[] checkbox = new JCheckBox[size];
+               //decalre new checkbox arraylist
+               ArrayList<JCheckBox> newCheckbox = new ArrayList<>();
 
                centerPanel.removeAll();
                centerPanel.repaint();       // indicates the window is dirty -> allows for removal
 
-
                //sort items, populate data array, copy data array to checkbox array, add to panel
                for (int i = 0; i < size; i++) {
                    todo.sortItems();
-                   data[i] = todo.getItemString(i);
+                   data[i] = todo.taskToString(i);
 
-                   checkbox[i] = new JCheckBox(data[i]);
-                   centerPanel.add(checkbox[i]);
+                   centerPanel.add(new JCheckBox(data[i]));
+                   
                }
-
 
                contentPane.add(centerPanel, BorderLayout.CENTER);
                contentPane.revalidate();        // indicates new components are available to repaint
-
-               
-
 
 
            }
        });
 
 
+        resetButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+
+                centerPanel.removeAll();
+                centerPanel.repaint();       // indicates the window is dirty -> allows for removal
+
+                int tempSize = size;        //because remove decrements size variable
+
+                // removes list items
+                for (int i = tempSize; i > 0; i--) {
+                    System.out.println("STRING TO DELETE: " + todo.taskToString(i));
+                    todo.removeItem(todo.taskToString(i) );
+
+
+                    // SHOULD PROBABLY CHANGE TO SEARCH ENTIRE STRING - REFERENCE STACK OVERFLOW Q
+                }
+
+
+                contentPane.add(centerPanel, BorderLayout.CENTER);
+                contentPane.revalidate();        // indicates new components are available to repaint
+
+
+
+
+            }
+        });
         frame.setContentPane(contentPane);
         frame.setSize(400,500);
         frame.setResizable(false);
