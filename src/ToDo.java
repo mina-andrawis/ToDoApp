@@ -87,17 +87,6 @@ public class ToDo{
 
         ToDo todo = new ToDo();
 
-
-        /*
-        todo.addItem("Get pickles", "Shopping", 2);
-        todo.addItem("Read book", "School", 3);
-        todo.addItem("Send letter", "Other", 1);
-        todo.addItem("Buy planner", "School", 4);
-        todo.addItem("Get potatoes", "Shopping", 3);
-        todo.addItem("Get things", "Shopping", 3);
-
-         */
-
         //initialize data array to hold items
         String[] data = new String[100];
 
@@ -107,8 +96,8 @@ public class ToDo{
             data[i] = todo.taskToString(i);
         }
 
-        ///declare components of panels
-        //JCheckBox[] checkbox = new JCheckBox[size];
+        // ********* declare components of panels **************
+
         ArrayList<JCheckBox> checkbox = new ArrayList<>();
 
         JButton resetButton = new JButton("Reset List");
@@ -130,16 +119,10 @@ public class ToDo{
         contentPane.setLayout(new BorderLayout(5, 5));
 
 
-        //array to hold checkboxes
-
 
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new GridLayout(0, 1, 5, 5));
 
-        for (int i = 0; i < size; i++) {
-            checkbox.set(i,new JCheckBox(data[i]));
-            centerPanel.add(checkbox.get(i));
-        }
 
         contentPane.add(headerPanel, BorderLayout.NORTH);
         contentPane.add(centerPanel, BorderLayout.CENTER);
@@ -151,7 +134,6 @@ public class ToDo{
         contentPane.add(footerPanel, BorderLayout.SOUTH);
 
         // Action listener of add button
-
         addButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
 
@@ -169,12 +151,15 @@ public class ToDo{
                    priority = Integer.parseInt(newP);      //convert to an int
                }
 
+               // array to hold indexes of checked items
+               int [] temp = new int[50];
+               int count = 0;
+
+
                todo.addItem(item,category,priority);
 
                todo.print();        // to console
 
-               //decalre new checkbox arraylist
-               ArrayList<JCheckBox> newCheckbox = new ArrayList<>();
 
                centerPanel.removeAll();
                centerPanel.repaint();       // indicates the window is dirty -> allows for removal
@@ -184,9 +169,18 @@ public class ToDo{
                    todo.sortItems();
                    data[i] = todo.taskToString(i);
 
-                   centerPanel.add(new JCheckBox(data[i]));
+                   checkbox.add(i,new JCheckBox(data[i]));
+                   centerPanel.add(checkbox.get(i));
 
+
+                   if (checkbox.get(i).isSelected())
+                   {
+                       System.out.println("SELECTED ONES: " + checkbox.get(i));
+                   }
+                   
                }
+
+
 
                contentPane.add(centerPanel, BorderLayout.CENTER);
                contentPane.revalidate();        // indicates new components are available to repaint
