@@ -27,6 +27,15 @@ public class ToDo{
 
     }
 
+    //remove item at specified index spot
+    private void removeItem(int i )
+    {
+        i--;        // to avoid index out of bound where i = size
+        TodoList.remove(i);
+        size--;
+
+    }
+
     public void getList()
     {
         for (Item item : TodoList)
@@ -176,7 +185,7 @@ public class ToDo{
                    data[i] = todo.taskToString(i);
 
                    centerPanel.add(new JCheckBox(data[i]));
-                   
+
                }
 
                contentPane.add(centerPanel, BorderLayout.CENTER);
@@ -194,17 +203,11 @@ public class ToDo{
                 centerPanel.removeAll();
                 centerPanel.repaint();       // indicates the window is dirty -> allows for removal
 
-                int tempSize = size;        //because remove decrements size variable
 
                 // removes list items
-                for (int i = tempSize; i > 0; i--) {
-                    System.out.println("STRING TO DELETE: " + todo.taskToString(i));
-                    todo.removeItem(todo.taskToString(i) );
-
-
-                    // SHOULD PROBABLY CHANGE TO SEARCH ENTIRE STRING - REFERENCE STACK OVERFLOW Q
+                for (int i = size; i > 0; i--) {
+                    todo.removeItem(i);  //delete from todo list
                 }
-
 
                 contentPane.add(centerPanel, BorderLayout.CENTER);
                 contentPane.revalidate();        // indicates new components are available to repaint
